@@ -13,4 +13,8 @@ public class Board {
             }
         }
     }
+
+    public void nextTick() {
+        cells[50][50] = false;
+    }
 }
