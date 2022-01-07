@@ -2,6 +2,8 @@ package gameOfLife;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,4 +30,12 @@ public class GameOfLifeTest {
         boolean actual = board.cells[Math.round((int) (Math.random() * 100))][Math.round((int) (Math.random() * 100))];
         assertThat(actual).isNotNull();
     }
+
+    @Test
+    void aBoardContainsBothDeadAndAliveCells(){
+        boolean containsBoth = Arrays.asList(board.cells[Math.round((int) (Math.random() * 100))]).contains(true && false);
+
+        assertThat(containsBoth).isTrue();
+    }
+
 }
