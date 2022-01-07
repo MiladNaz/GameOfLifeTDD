@@ -8,8 +8,15 @@ public class GameOfLifeTest {
     Board board = new Board();
 
     @Test
-    void aBoardHasHundredRows(){
+    void aBoardHasHundredColumns(){
         int actual = board.cells.length;
+        int expected = 100;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void aBoardHasHundredRows(){
+        int actual = board.cells[99].length;
         int expected = 100;
         assertEquals(expected, actual);
     }
