@@ -39,14 +39,10 @@ public class GameOfLifeTest {
 
     @Test
     void anyLiveCellWithFewerThanTwoLiveNeighborsDies(){
+        board.clearBoard(board.cells);
+        board.cells[50][50] = true;
+
         board.cells[49][49] = true;
-        board.cells[49][50] = false;
-        board.cells[49][51] = false;
-        board.cells[50][49] = false;
-        board.cells[50][51] = false;
-        board.cells[51][49] = false;
-        board.cells[51][50] = false;
-        board.cells[51][51] = false;
         board.nextTick();
         boolean aliveOrDead = board.cells[50][50];
 
@@ -55,18 +51,31 @@ public class GameOfLifeTest {
 
     @Test
     void anyLiveCellWithMoreThanThreeLiveNeighborsDies(){
+        board.clearBoard(board.cells);
+        board.cells[50][50] = true;
+
         board.cells[49][49] = true;
         board.cells[49][50] = true;
         board.cells[49][51] = true;
         board.cells[50][49] = true;
-        board.cells[50][51] = false;
-        board.cells[51][49] = false;
-        board.cells[51][50] = false;
-        board.cells[51][51] = false;
+
         board.nextTick();
         boolean aliveOrDead = board.cells[50][50];
 
         assertThat(aliveOrDead).isFalse();
     }
 
+    @Test
+    void anyLiveCellWithTwoOrThreeLiveNeighborsLives(){
+        board.clearBoard(board.cells);
+        board.cells[50][50] = true;
+
+        board.cells[49][49] = true;
+        board.cells[49][50] = true;
+        board.cells[49][51] = true;
+        board.nextTick();
+        boolean aliveOrDead = board.cells[50][50];
+
+        assertThat(aliveOrDead).isTrue();
+    }
 }
