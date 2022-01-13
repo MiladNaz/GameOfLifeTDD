@@ -78,4 +78,18 @@ public class GameOfLifeTest {
 
         assertThat(aliveOrDead).isTrue();
     }
+
+    @Test
+    void anyDeadCellWithExactlyThreeLiveNeighborsBecomesALiveCell(){
+        board.clearBoard(board.cells);
+
+        board.cells[49][49] = true;
+        board.cells[49][50] = true;
+        board.cells[51][51] = true;
+
+        board.nextTick();
+        boolean aliveOrDead = board.cells[50][50];
+
+        assertThat(aliveOrDead).isTrue();
+    }
 }
