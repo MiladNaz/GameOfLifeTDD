@@ -27,13 +27,15 @@ public class GameOfLifeTest {
 
     @Test
     void aCellIsEitherAliveOrDead() {
-        boolean actual = board.cells[Math.round((int) (Math.random() * 100))][Math.round((int) (Math.random() * 100))];
-        assertThat(actual).isNotNull();
+        for(int i = 0; i<100; i++) {
+            boolean actual = board.cells[Math.round((int) (Math.random() * 100))][Math.round((int) (Math.random() * 100))];
+            assertThat(actual).isNotNull();
+        }
     }
 
     @Test
     void aBoardContainsBothDeadAndAliveCells(){
-        boolean containsBoth = Arrays.asList(board.cells[Math.round((int) (Math.random() * 100))]).contains(true && false);
+        boolean containsBoth = Arrays.asList(board.cells[Math.round((int) (Math.random() * 100))]).contains(true || false);
         assertThat(containsBoth).isTrue();
     }
 
