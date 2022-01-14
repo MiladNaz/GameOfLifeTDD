@@ -7,90 +7,88 @@ import java.util.Arrays;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GameOfLifeTest {
+class GameOfLifeTest {
     Board board = new Board();
 
 
     @Test
     void aBoardHasHundredColumns() {
-        int actual = board.cells.length;
+        int actual = board.getCells().length;
         int expected = 100;
         assertEquals(expected, actual);
     }
 
     @Test
     void aBoardHasHundredRows() {
-        int actual = board.cells[99].length;
+        int actual = board.getCells().length;
         int expected = 100;
         assertEquals(expected, actual);
     }
 
     @Test
-    void aCellIsEitherAliveOrDead() {
-        for(int i = 0; i<100; i++) {
-            boolean actual = board.cells[Math.round((int) (Math.random() * 100))][Math.round((int) (Math.random() * 100))];
-            assertThat(actual).isNotNull();
-        }
-    }
-
-    @Test
     void aBoardContainsBothDeadAndAliveCells(){
-        boolean containsBoth = Arrays.asList(board.cells[Math.round((int) (Math.random() * 100))]).contains(true || false);
-        assertThat(containsBoth).isTrue();
+
+        boolean containsAliveCells = Arrays.stream(board.getCells()).flatMap(Arrays::stream).anyMatch(x -> x.equals(true));
+        assertThat(containsAliveCells).isTrue();
+
+        boolean containsDeadCells = Arrays.stream(board.getCells()).flatMap(Arrays::stream).anyMatch(x -> x.equals(false));
+        assertThat(containsDeadCells).isTrue();
+
     }
 
     @Test
     void anyLiveCellWithFewerThanTwoLiveNeighborsDies(){
-        board.clearBoard(board.cells);
-        board.cells[50][50] = true;
+        board.clearBoard(board.getCells());
+        board.setCell(50,50, true);
 
-        board.cells[49][49] = true;
+        board.setCell(49,49, true);
         board.nextTick();
-        boolean aliveOrDead = board.cells[50][50];
+        boolean aliveOrDead = board.cell(50,50);
 
         assertThat(aliveOrDead).isFalse();
     }
 
     @Test
     void anyLiveCellWithMoreThanThreeLiveNeighborsDies(){
-        board.clearBoard(board.cells);
-        board.cells[50][50] = true;
+        board.clearBoard(board.getCells());
+        board.setCell(50,50, true);
 
-        board.cells[49][49] = true;
-        board.cells[49][50] = true;
-        board.cells[49][51] = true;
-        board.cells[50][49] = true;
+        board.setCell(49,49, true);
+        board.setCell(49,50,true);
+        board.setCell(49,51,true);
+        board.setCell(50,49,true);
 
         board.nextTick();
-        boolean aliveOrDead = board.cells[50][50];
+        boolean aliveOrDead = board.cell(50,50);
 
         assertThat(aliveOrDead).isFalse();
     }
 
     @Test
     void anyLiveCellWithTwoOrThreeLiveNeighborsLives(){
-        board.clearBoard(board.cells);
-        board.cells[50][50] = true;
+        board.clearBoard(board.getCells());
+        board.setCell(50,50, true);
 
-        board.cells[49][49] = true;
-        board.cells[49][50] = true;
-        board.cells[49][51] = true;
+        board.setCell(49,49, true);
+        board.setCell(49,50, true);
+        board.setCell(49,51, true);
+
         board.nextTick();
-        boolean aliveOrDead = board.cells[50][50];
+        boolean aliveOrDead = board.cell(50,50);
 
         assertThat(aliveOrDead).isTrue();
     }
 
     @Test
     void anyDeadCellWithExactlyThreeLiveNeighborsBecomesALiveCell(){
-        board.clearBoard(board.cells);
+        board.clearBoard(board.getCells());
 
-        board.cells[49][49] = true;
-        board.cells[49][50] = true;
-        board.cells[51][51] = true;
+        board.setCell(49,49, true);
+        board.setCell(49,50, true);
+        board.setCell(50,51, true);
 
         board.nextTick();
-        boolean aliveOrDead = board.cells[50][50];
+        boolean aliveOrDead = board.cell(50,50);
 
         assertThat(aliveOrDead).isTrue();
     }

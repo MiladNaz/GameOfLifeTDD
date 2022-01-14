@@ -8,7 +8,6 @@ public class VisualBoard extends JFrame {
     static JButton[][] visualCells = new JButton[100][100];
 
     public VisualBoard() {
-
         Board board = new Board();
 
         setSize(1000, 1000);
@@ -16,7 +15,7 @@ public class VisualBoard extends JFrame {
         for (int i = 0; i < visualCells.length; i++) {
             for (int j = 0; j < visualCells[i].length; j++) {
                 visualCells[i][j] = new JButton();
-                if (board.cells[i][j])
+                if (board.cell(i,j))
                     visualCells[i][j].setBackground(Color.BLACK);
                 else
                     visualCells[i][j].setBackground(Color.WHITE);
@@ -28,16 +27,17 @@ public class VisualBoard extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         while(!board.isDone){
-            setTimeOut(100);
+            setTimeOut();
             board.nextTick();
         }
 
     }
 
-    private void setTimeOut(int milliseconds) {
+    private void setTimeOut() {
         try {
-            TimeUnit.MILLISECONDS.sleep(milliseconds);
-        } catch (InterruptedException ignored) {
+            TimeUnit.MILLISECONDS.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

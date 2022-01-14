@@ -6,8 +6,21 @@ import java.util.Random;
 
 public class Board {
 
-    public Boolean[][] cells = new Boolean[100][100];
+    private Boolean[][] cells = new Boolean[100][100];
     boolean isDone;
+
+    public Boolean[][] getCells() {
+        return cells;
+    }
+
+    public boolean cell(int i, int j) {
+        return cells[i][j];
+    }
+
+    public void setCell(int column, int row, boolean cell) {
+        this.cells[column][row] = cell;
+    }
+
 
     public Board() {
 
@@ -24,37 +37,35 @@ public class Board {
         clearBoard(tempCells);
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                //check alive cells
-                if (cells[i][j]) {
-                    if (countNeighbors(i, j) < 2) {
-                        tempCells[i][j] = false;
-                        changeColorOnVisualCells(i, j, Color.WHITE);
-                    }
-                    else if (countNeighbors(i, j) == 2) {
-                        tempCells[i][j] = true;
-                        changeColorOnVisualCells(i, j, Color.BLACK);
-                    }
-                    if (countNeighbors(i, j) > 3) {
-                        tempCells[i][j] = false;
-                        changeColorOnVisualCells(i, j, Color.WHITE);
-                    }
-                }
-                if (countNeighbors(i, j) == 3) {
-                    tempCells[i][j] = true;
-                    changeColorOnVisualCells(i, j, Color.BLACK);
-                }
+                checkRules(tempCells, i, j);
             }
         }
         isDone = tempCells == cells;
         cells = tempCells;
     }
 
+    private void checkRules(Boolean[][] tempCells, int i, int j) {
+        if (cells[i][j]) {
+            if (countNeighbors(i, j) == 2) {
+                tempCells[i][j] = true;
+                changeColorOnVisualCells(i, j, Color.BLACK);
+            }
+            changeColorOnVisualCells(i, j, Color.WHITE);
+        }
+
+        if (countNeighbors(i, j) == 3) {
+            tempCells[i][j] = true;
+            changeColorOnVisualCells(i, j, Color.BLACK);
+        }
+    }
+
     private void changeColorOnVisualCells(int i, int j, Color white) {
         try {
             VisualBoard.visualCells[i][j].setBackground(white);
-        }catch (NullPointerException ignored){
-
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
+
     }
 
     private int countNeighbors(int x, int y) {
@@ -65,7 +76,8 @@ public class Board {
                 try {
                     if (cells[i][j])
                         countNeighbors++;
-                } catch (ArrayIndexOutOfBoundsException ignored) {
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    e.printStackTrace();
                 }
             }
         }
