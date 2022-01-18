@@ -1,4 +1,4 @@
-package gameOfLife;
+package gameoflife;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class VisualBoard extends JFrame {
 
         while(!board.isDone){
             setTimeOut();
-            board.nextTick();
+            board.nextGeneration();
         }
 
     }

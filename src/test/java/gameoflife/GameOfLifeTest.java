@@ -1,4 +1,4 @@
-package gameOfLife;
+package gameoflife;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,6 @@ class GameOfLifeTest {
 
     @Test
     void aBoardContainsBothDeadAndAliveCells(){
-
         boolean containsAliveCells = Arrays.stream(board.getCells()).flatMap(Arrays::stream).anyMatch(x -> x.equals(true));
         assertThat(containsAliveCells).isTrue();
 
@@ -42,7 +41,7 @@ class GameOfLifeTest {
         board.setCell(50,50, true);
 
         board.setCell(49,49, true);
-        board.nextTick();
+        board.nextGeneration();
         boolean aliveOrDead = board.cell(50,50);
 
         assertThat(aliveOrDead).isFalse();
@@ -58,7 +57,7 @@ class GameOfLifeTest {
         board.setCell(49,51,true);
         board.setCell(50,49,true);
 
-        board.nextTick();
+        board.nextGeneration();
         boolean aliveOrDead = board.cell(50,50);
 
         assertThat(aliveOrDead).isFalse();
@@ -73,7 +72,7 @@ class GameOfLifeTest {
         board.setCell(49,50, true);
         board.setCell(49,51, true);
 
-        board.nextTick();
+        board.nextGeneration();
         boolean aliveOrDead = board.cell(50,50);
 
         assertThat(aliveOrDead).isTrue();
@@ -87,7 +86,7 @@ class GameOfLifeTest {
         board.setCell(49,50, true);
         board.setCell(50,51, true);
 
-        board.nextTick();
+        board.nextGeneration();
         boolean aliveOrDead = board.cell(50,50);
 
         assertThat(aliveOrDead).isTrue();
